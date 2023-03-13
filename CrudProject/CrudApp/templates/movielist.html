@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+{% block content %}
+<br>
+<div class="container">
+<h2 class="text-center">Movie Management System<a href="add-movie" class="float-end btn btn-sm btn-primary">Add Movie</a></h2>
+    <div class="row">
+        <div class="col-xl-4">
+            <form action="" method="get" class="form-inline">
+                <input type="text" class="form-control" name="searchname">
+                <br>
+                <input type="submit" class="btn btn-success" value="search">
+            </form>
+        </div>
+    </div>
+    <br>
+    <h2>Total Number of Movies : {{count}}</h2>
+<table class="table table-dark table-bordered">
+    <thead>
+    <tr>
+    <th scope="col">Name</th>
+        <th scope="col">Poster</th>
+    <th scope="col">Description</th>
+    <th scope="col">Released at</th>
+        <th scope="col">Action</th>
+     </tr>
+    </thead>
+    <tbody>
+    {% for i in movie %}
+    <tr>
+        <td>{{i.name}}</td>
+        {% if i.poster %}
+        <td>
+            <img src="{{i.poster.url}}" width="50" height="50">
+        </td>
+        {% endif %}
+        <td>{{i.description}}</td>
+        <td>{{i.released_at}}</td>
+        <td>
+            <a href="update-movie/{{i.id}}" class="btn btn-primary">Update</a>
+            <a onclick="return confirm('Are you sure you want to delete this data?')" href="/delete-movie/{{i.id}}" class="btn btn-danger">Delete</a>
+            <a href="movie-detail/{{i.id}}" class="btn btn-info">View</a>
+        </td>
+    </tr>
+    {% empty %}
+    <span class="text-center text-danger">No records found</span>
+    {% endfor %}
+    </tbody>
+</table>
+    </div>
+<div class="page-links">
+    {% if page.has_previous %}
+    <a href="#">Previous Page</a>
+    {% endif %}
+    {% if page.has_next %}
+    <a href="#">Next Page</a>
+    {% endif %}
+</div>
+{% endblock %}
+</body>
+</html>
